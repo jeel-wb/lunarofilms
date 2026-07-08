@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lunaro Films | Celebration Photography</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+    <link rel="icon" type="image/x-icon" href="assets/img/Tab/Logo.png">
+
+    <style>
+        :root {
+            --gold: #c5a059;
+            --dark: #0a0a0a;
+            --light: #f9f7f2;
+            --shadow: rgba(0, 0, 0, 0.15);
+            --highlight: linear-gradient(135deg, #c5a059, #f5d27a);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--light);
+            overflow-x: hidden;
+            color: var(--dark);
+        }
+
+        .back-nav {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 999;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--gold);
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: var(--gold);
+            font-size: 12px;
+            font-weight: bold;
+            transition: 0.4s;
+            display: inline-block;
+        }
+
+        .back-btn:hover {
+            background: var(--highlight);
+            color: #fff;
+            transform: translateX(-5px);
+            box-shadow: 0 0 15px rgba(197,160,89,0.5);
+        }
+
+        .book-now-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--highlight);
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            z-index: 999;
+            box-shadow: 0 10px 25px rgba(197,160,89,0.4);
+            transition: 0.3s;
+        }
+
+        .book-now-btn:hover {
+            transform: scale(1.07);
+            background: var(--dark);
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+            overflow: hidden;
+        }
+
+        .hero video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            will-change: transform;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%) scale(1.05);
+            filter: brightness(0.5) contrast(1.2) saturate(1.2);
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.8));
+            z-index: 0;
+        }
+
+        .hero-content {
+            text-align: center;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3.5rem, 10vw, 7rem);
+            color: white;
+            text-transform: uppercase;
+            line-height: 1;
+            text-shadow:
+                2px 2px 0px #333,
+                4px 4px 0px #222,
+                6px 6px 0px #111,
+                15px 15px 30px rgba(0,0,0,0.6);
+            transform: translateZ(60px);
+        }
+
+        .hero p {
+            background: var(--highlight);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 8px;
+            font-weight: 300;
+            margin-top: 10px;
+            text-transform: uppercase;
+            transform: translateZ(30px);
+        }
+
+        .gallery {
+            padding: 100px 5%;
+            background-color: var(--light);
+        }
+
+        .masonry {
+            column-count: 4;
+            column-gap: 15px;
+        }
+
+        .photo-item {
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            background: #e0e0e0;
+            transition: all 0.4s ease;
+            box-shadow: 0 6px 20px var(--shadow);
+        }
+
+        .photo-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 30px rgba(197,160,89,0.3);
+        }
+
+        .photo-item img {
+            width: 100%;
+            display: block;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            filter: brightness(1) contrast(1.1);
+        }
+
+        .photo-item::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--highlight);
+            color: #fff;
+            font-size: 10px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            z-index: 2;
+            opacity: 0;
+            transition: 0.4s;
+        }
+
+        .photo-item:hover::before {
+            opacity: 1;
+        }
+
+        .photo-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .photo-item::after {
+            content: "LUNARO CELEBRATIONS";
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 10px;
+            letter-spacing: 2px;
+            z-index: 2;
+            font-weight: 600;
+            opacity: 0;
+            transition: 0.4s;
+        }
+
+        .photo-item:hover::after {
+            opacity: 1;
+        }
+
+        #lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            overflow: hidden;
+            touch-action: pan-y;
+        }
+
+        #lightbox button {
+           display: none;
+        }
+
+        #prevBtn {
+            left: 30px;
+        }
+
+        #nextBtn {
+            right: 30px;
+        }
+
+        #lightImg {
+            max-width: 90%;
+            max-height: 80vh;
+            border: 2px solid var(--gold);
+            transition: 0.4s;
+        }
+
+        @media (max-width:1024px) {
+            .masonry {
+                column-count: 3;
+            }
+        }
+
+        @media (max-width:768px) {
+            .masonry {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width:480px) {
+            .masonry {
+                column-count: 1;
+            }
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+            gap: 25px;
+            padding: 50px 5%;
+        }
+
+        .video-card {
+            background: #000;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: 0.4s;
+        }
+
+        .video-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(197,160,89,0.3);
+        }
+
+        .video-thumb img {
+            width: 100%;
+            opacity: 0.7;
+            transition: 0.5s;
+        }
+
+        .video-card:hover .video-thumb img {
+            opacity: 0.4;
+            transform: scale(1.08);
+        }
+
+        .video-thumb i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 40px;
+            z-index: 2;
+        }
+
+        footer {
+            background: #000;
+            color: #fff;
+            padding: 60px 5%;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display';
+            color: var(--gold);
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .footer-socials {
+            margin: 20px 0;
+        }
+
+        .footer-socials i {
+            margin: 0 15px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .footer-socials i:hover {
+            color: var(--gold);
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="back-nav">
+    <a href="javascript:history.back()" class="back-btn">
+        <i class="fas fa-arrow-left"></i> BACK
+    </a>
+</nav>
+
+<a href="Book/book.html" class="book-now-btn">BOOK NOW</a>
+
+<section class="hero" id="hero">
+    <video autoplay loop playsinline muted preload="auto">
+        <source src="assets/Video/Celebration/back.mp4">
+    </video>
+
+    <div class="hero-content" id="tiltContent">
+        <h1>Lunaro Films</h1>
+        <p>Celebration Photography</p>
+    </div>
+</section>
+
+<section class="gallery">
+    <h2 style="text-align:center; color:var(--dark); font-family:'Playfair Display'; margin-bottom:40px; font-size: 2.5rem;">
+        Joyful Moments
+    </h2>
+    <div class="masonry" id="gallery"></div>
+</section>
+
+<section style="background:var(--dark); color: #fff;">
+    <h2 style="text-align:center; color:var(--gold); padding-top:60px; font-family:'Playfair Display'; font-size: 2.5rem;">
+        Celebration Reels
+    </h2>
+    <div class="video-grid" id="videos"></div>
+</section>
+
+<div id="lightbox">
+    <button id="prevBtn">❮</button>
+    <img id="lightImg">
+    <button id="nextBtn">❯</button>
+</div>
+
+<footer>
+    <div class="footer-logo">Lunaro Films</div>
+    <p>We capture the energy, joy, and magic of your celebrations.</p>
+
+    <div class="footer-socials">
+        <a href="https://www.instagram.com/lunarofilms?igsh=MXI1eGE0OXZubGg5bw==">
+            <i class="fab fa-instagram"></i>
+        </a>
+    </div>
+
+    <p style="font-size: 12px; opacity: 0.5;">
+        &copy; 2024 Lunaro Films. All Rights Reserved.
+    </p>
+</footer>
+
+<script>
+const gallery = document.getElementById("gallery");
+
+const images = Array.from({ length: 87 }, (_, i) => 
+    `assets/img/Celebration/00 (${i + 1}).jpg`
+);
+
+let currentIndex = 0;
+const lightbox = document.getElementById("lightbox");
+const lightImg = document.getElementById("lightImg");
+
+function openImage(index) {
+    currentIndex = index;
+    lightImg.src = images[index];
+    lightbox.style.display = "flex";
+}
+
+lightbox.onclick = (e) => {
+    if (e.target.id !== "prevBtn" && e.target.id !== "nextBtn") {
+        lightbox.style.display = "none";
+    }
+};
+
+function changeImage(step) {
+    currentIndex += step;
+
+    if (currentIndex < 0) currentIndex = images.length - 1;
+    if (currentIndex >= images.length) currentIndex = 0;
+
+    lightImg.style.opacity = 0;
+
+    setTimeout(() => {
+        lightImg.src = images[currentIndex];
+        lightImg.style.opacity = 1;
+    }, 200);
+}
+
+document.getElementById("prevBtn").onclick = (e) => {
+    e.stopPropagation();
+    changeImage(-1);
+};
+
+document.getElementById("nextBtn").onclick = (e) => {
+    e.stopPropagation();
+    changeImage(1);
+};
+
+images.forEach((imgUrl, index) => {
+    let div = document.createElement("div");
+    div.className = "photo-item";
+
+    let img = document.createElement("img");
+    img.src = imgUrl;
+    img.loading = "lazy";
+    img.draggable = false;
+
+    img.onclick = (e) => e.preventDefault();
+
+    div.appendChild(img);
+
+    div.onclick = () => openImage(index);
+
+    gallery.appendChild(div);
+});
+
+const vids = [
+    {
+        link: "https://youtu.be/7mOO5iCSNj4?si=EhOoXF_h0Xrp46TR",
+        thumb: "assets/img/Celebration/Thumbnail/1.jpg"
+    },
+    {
+        link: "https://youtu.be/MkNtgoPr-TE?si=6Tzsth41qUGC_ZeI",
+        thumb: "assets/img/Celebration/Thumbnail/2.jpg"
+    },
+    {
+        link: "https://youtu.be/gImV2_WNseY?si=iGn6_KKr3nQbx2yv",
+        thumb: "assets/img/Celebration/Thumbnail/3.jpg"
+    }
+];
+
+const videoDiv = document.getElementById("videos");
+
+vids.forEach(v => {
+    let card = document.createElement("div");
+    card.className = "video-card";
+
+    card.onclick = () => window.location.href = v.link;
+
+    card.innerHTML = `
+        <div class="video-thumb">
+            <img src="${v.thumb}" draggable="false">
+            <i class="fas fa-play-circle"></i>
+        </div>
+    `;
+
+    videoDiv.appendChild(card);
+});
+
+document.addEventListener("keydown", (e) => {
+    if (lightbox.style.display === "flex") {
+        if (e.key === "ArrowRight") {
+            changeImage(1);
+        }
+        if (e.key === "ArrowLeft") {
+            changeImage(-1);
+        }
+        if (e.key === "Escape") {
+            lightbox.style.display = "none";
+        }
+    }
+});
+
+let startX = 0;
+
+lightbox.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+});
+
+lightbox.addEventListener("touchend", (e) => {
+    let endX = e.changedTouches[0].clientX;
+    let diff = startX - endX;
+
+    if (Math.abs(diff) > 50) {
+        if (diff > 0) {
+            changeImage(1); // swipe left → next
+        } else {
+            changeImage(-1); // swipe right → prev
+        }
+    }
+});
+ // --- DISABLE RIGHT CLICK ---
+    document.addEventListener("contextmenu", e => e.preventDefault());
+
+
+    // --- DISABLE DRAG ---
+    document.addEventListener("dragstart", e => e.preventDefault());
+
+
+    // --- DISABLE DEV TOOLS ---
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "F12") e.preventDefault();
+        if (e.ctrlKey && e.shiftKey && e.key === "I") e.preventDefault();
+        if (e.ctrlKey && e.key === "U") e.preventDefault();
+    });
+
+
+    // --- BLUR WHEN INSPECT OPEN ---
+    setInterval(() => {
+        if (window.outerWidth - window.innerWidth > 100) {
+            document.body.style.filter = "blur(15px)";
+        } else {
+            document.body.style.filter = "none";
+        }
+    }, 500);
+
+
+    // --- SCREENSHOT TRICK ---
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "PrintScreen") {
+            document.body.style.background = "black";
+            setTimeout(() => document.body.style.background = "", 100);
+        }
+    });
+</script>
+
+</body>
+</html>

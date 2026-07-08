@@ -1,0 +1,519 @@
+<a href="Journy.html" class="journey-btn">Our Journey <i class="fas fa-arrow-right" style="margin-left: 10px;"></i></a>
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lunaro Films | Pre-Wedding Cinema</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+
+<style>
+:root {
+    --gold: #c5a059; 
+    --dark: #0a0a0a;
+    --light: #f9f7f2;
+    --shadow: rgba(0, 0, 0, 0.15);
+}
+
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box;}
+html { scroll-behavior: smooth; }
+body{font-family:'Montserrat',sans-serif;background:var(--light);overflow-x:hidden; color: var(--dark);}
+
+/* --- BACK BUTTON --- */
+.back-nav{position:fixed;top:20px;left:20px;z-index:999;}
+.back-btn{
+    background:rgba(255, 255, 255, 0.9);
+    border:1px solid var(--gold);
+    padding:10px 25px;
+    border-radius:50px;
+    text-decoration:none;
+    color:var(--gold);
+    font-size:12px;
+    font-weight: bold;
+    transition: 0.4s;
+    display: inline-block;
+}
+.back-btn:hover { background: var(--gold); color: #fff; transform: translateX(-5px); }
+
+/* --- BOOK NOW BUTTON --- */
+.book-now-btn{
+    position:fixed;
+    top:20px;
+    right:20px;
+    background:var(--gold);
+    color:#fff;
+    padding:12px 30px;
+    border-radius:50px;
+    text-decoration:none;
+    font-weight: 600;
+    z-index: 999;
+    box-shadow: 0 10px 20px rgba(184, 154, 103, 0.3);
+    transition: 0.3s;
+}
+.book-now-btn:hover { transform: scale(1.05); background: var(--dark); }
+
+/* --- MUSIC PLAYER --- */
+.music-vinyl-container{
+    position:fixed;
+    bottom:20px;
+    left:20px;
+    display:flex;
+    gap:15px;
+    align-items:center;
+    z-index:999;
+    background: rgba(255,255,255,0.9);
+    padding: 8px 15px;
+    border-radius: 50px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border: 1px solid var(--gold);
+    cursor: pointer;
+}
+.vinyl-record{
+    width:40px; height:40px;
+    border-radius:50%;
+    background: radial-gradient(circle, #333 20%, #000 100%);
+    border: 2px solid #222;
+    animation:spin 3s linear infinite;
+    position: relative;
+}
+.vinyl-record::after {
+    content: ''; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px; height: 8px; background: var(--gold); border-radius: 50%;
+}
+@keyframes spin{ from{transform:rotate(0)} to{transform:rotate(360deg)} }
+
+/* --- HERO & 3D TITLE --- */
+.hero{
+    height:100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1000px;
+    overflow: hidden;
+}
+.hero video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover; /* 🔥 main fix */
+    transform: translate(-50%, -50%) scale(1.05);
+
+    filter: brightness(0.5) blur(3px) contrast(1.1);
+}
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.2),
+        rgba(0,0,0,0.7)
+    );
+    z-index: 0;
+}
+.hero-content {
+    text-align: center;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
+}
+.hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 10vw, 7rem);
+    color: var(--dark); /* Black Color */
+    text-transform: uppercase;
+    margin: 0;
+    color: white;
+    line-height: 1;
+    /* 3D Depth Effect */
+    text-shadow: 
+        1px 1px 0px #333,
+        2px 2px 0px #222,
+        3px 3px 0px #111,
+        10px 10px 20px rgba(0,0,0,0.5);
+    transform: translateZ(60px);
+}
+.hero p {
+    color: var(--gold);
+    letter-spacing: 8px;
+    font-weight: 200;
+    margin-top: 10px;
+    text-transform: uppercase;
+    transform: translateZ(30px);
+}
+
+/* GALLERY */
+.gallery { 
+    padding: 100px 5%; 
+    background-color: var(--light);
+}
+
+.masonry { 
+    column-count: 4; 
+    column-gap: 15px; 
+}
+
+.photo-item {
+    margin-bottom: 15px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px; /* Softer corners */
+    background: #e0e0e0;
+    transition: transform 0.4s ease;
+    box-shadow: 0 4px 15px var(--shadow);
+}
+
+.photo-item img {
+    width: 100%; 
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    filter: brightness(0.95) contrast(1.05); /* Professional photo touch */
+}
+
+/* Hover Effect: Zoom + Subtle Dark Overlay */
+.photo-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4));
+    z-index: 1;
+    opacity: 0;
+    transition: 0.4s;
+}
+
+.photo-item:hover::before { opacity: 1; }
+.photo-item:hover img { transform: scale(1.08); }
+
+/* Watermark Styling */
+.photo-item::after {
+    content: "LUNARO FILMS";
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 10px;
+    letter-spacing: 2px;
+    z-index: 2;
+    font-weight: 600;
+    opacity: 0;
+    transition: 0.4s;
+}
+.photo-item:hover::after { opacity: 1; }
+
+@media(max-width:1024px){ .masonry{column-count:3;} }
+@media(max-width:768px){ .masonry{column-count:2;} }
+@media(max-width:480px){ .masonry{column-count:1;} }
+/* VIDEO SECTION */
+.video-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:25px;
+    padding:50px 5%;
+}
+.video-card{
+    background:#000;
+    overflow:hidden;
+    position: relative;
+    cursor: pointer;
+}
+.video-thumb img{ width:100%; opacity: 0.7; transition: 0.5s; }
+.video-card:hover .video-thumb img { opacity: 0.4; transform: scale(1.05); }
+.video-thumb i{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    color: #fff;
+    font-size: 40px;
+    z-index: 2;
+}
+.photo-item{
+    margin-bottom:20px;
+    overflow:hidden;
+    border-radius:5px;
+    cursor: pointer;
+    position: relative;
+}
+
+/* WATERMARK */
+.photo-item::after{
+    content:"Lunaro Films";
+    position:absolute;
+    bottom:10px;
+    right:10px;
+    color:rgba(255,255,255,0.6);
+    font-size:12px;
+    pointer-events:none;
+}
+/* FOOTER */
+footer { background: #000; color: #fff; padding: 60px 5%; text-align: center; }
+.footer-logo { font-family: 'Playfair Display'; color: var(--gold); font-size: 2rem; margin-bottom: 20px; }
+.footer-socials { margin: 20px 0; }
+.footer-socials i { margin: 0 15px; font-size: 20px; cursor: pointer; transition: 0.3s; }
+.footer-socials i:hover { color: var(--gold); }
+
+/* RESPONSIVE */
+@media(max-width:1024px){ .masonry{column-count:3;} }
+@media(max-width:768px){ .masonry{column-count:2;} .hero h1 { font-size: 4rem; } }
+@media(max-width:480px){ .masonry{column-count:1;} }
+</style>
+</head>
+
+<body>
+
+<nav class="back-nav">
+    <a href="javascript:history.back()" class="back-btn">
+        <i class="fas fa-arrow-left"></i> BACK
+    </a>
+</nav>
+
+<a href="Book/book.html" class="book-now-btn">BOOK NOW</a>
+
+<div class="music-vinyl-container" id="musicToggle">
+    <div class="vinyl-record" id="record"></div>
+    <div>
+        <i id="playIcon" class="fas fa-pause" style="color: var(--gold);"></i>
+        <span id="statusText" style="font-size: 10px; font-weight: bold; color: var(--gold); margin-left: 5px;">PLAYING</span>
+    </div>
+    <audio id="bgMusic" loop autoplay>
+        <source src="assets/Music/Pre-Wedding/Back.mp3" type="audio/mpeg">
+    </audio>
+</div>
+
+<section class="hero" id="hero">
+    <video autoplay muted loop playsinline>
+        <source src="assets/Video/Pre-Wedding/Back.mp4">
+    </video>
+    <div class="hero-content" id="tiltContent">
+        <h1>Lunaro Films</h1>
+        <p>Pre-Wedding Cinema</p>
+    </div>
+</section>
+
+<section class="gallery">
+    <h2 style="text-align:center; color:var(--dark); font-family:'Playfair Display'; margin-bottom:40px; font-size: 2.5rem;">Visual Stories</h2>
+    <div class="masonry" id="gallery"></div>
+</section>
+
+<section style="background:var(--dark); color: #fff;">
+    <h2 style="text-align:center; color:var(--gold); padding-top:60px; font-family:'Playfair Display'; font-size: 2.5rem;">Cinematic Reels</h2>
+    <div class="video-grid" id="videos"></div>
+</section>
+
+<div id="lightbox" style="position:fixed; inset:0; background:rgba(0,0,0,0.95); display:none; justify-content:center; align-items:center; z-index:1000;" onclick="this.style.display='none'">
+    <img id="lightImg" style="max-width:90%; max-height:80vh; border: 2px solid var(--gold);">
+</div>
+
+<footer>
+    <div class="footer-logo">Lunaro Films</div>
+    <p>We capture the soul of your most precious moments.</p>
+    <div class="footer-socials">
+        <a href="https://www.instagram.com/lunarofilms?igsh=MXI1eGE0OXZubGg5bw=="><i class="fab fa-instagram"></i></a>
+    </div>
+    <p style="font-size: 12px; opacity: 0.5;">&copy; 2024 Lunaro Films. All Rights Reserved.</p>
+</footer>
+
+<script>
+// 🔒 SECURITY SYSTEM
+
+// Disable Right Click
+document.addEventListener("contextmenu", e => e.preventDefault());
+
+// Disable Drag
+document.addEventListener("dragstart", e => e.preventDefault());
+
+// Disable Dev Tools
+document.addEventListener("keydown", function(e) {
+    if (e.key === "F12") e.preventDefault();
+    if (e.ctrlKey && e.shiftKey && e.key === "I") e.preventDefault();
+    if (e.ctrlKey && e.key === "U") e.preventDefault();
+});
+
+// Blur when inspect open
+setInterval(() => {
+    if (window.outerWidth - window.innerWidth > 100) {
+        document.body.style.filter = "blur(15px)";
+    } else {
+        document.body.style.filter = "none";
+    }
+}, 500);
+
+// Screenshot trick
+document.addEventListener("keydown", function(e) {
+    if (e.key === "PrintScreen") {
+        document.body.style.background = "black";
+        setTimeout(() => document.body.style.background = "", 100);
+    }
+});
+
+
+// 1. MUSIC CONTROL
+const music = document.getElementById("bgMusic");
+const record = document.getElementById("record");
+const playIcon = document.getElementById("playIcon");
+const statusText = document.getElementById("statusText");
+
+// 🔥 Restore Time + State on Load
+window.addEventListener("load", () => {
+    const savedTime = localStorage.getItem("musicTime");
+    const savedState = localStorage.getItem("musicState");
+
+    if (savedTime) {
+        music.currentTime = parseFloat(savedTime);
+    }
+
+    if (savedState === "paused") {
+        music.pause();
+        record.style.animationPlayState = 'paused';
+        playIcon.classList.replace("fa-pause", "fa-play");
+        statusText.innerText = "PAUSED";
+    } else {
+        // default = playing
+        music.play().catch(() => {});
+        record.style.animationPlayState = 'running';
+        playIcon.classList.replace("fa-play", "fa-pause");
+        statusText.innerText = "PLAYING";
+    }
+});
+
+// 🔥 First Click Fix (Autoplay policy)
+window.addEventListener('click', () => {
+    if (music.paused && statusText.innerText === "PLAYING") {
+        music.play().catch(() => {});
+        record.style.animationPlayState = 'running';
+    }
+}, { once: true });
+
+// 🔥 Save current time continuously
+music.addEventListener("timeupdate", () => {
+    localStorage.setItem("musicTime", music.currentTime);
+});
+
+// 🔥 Toggle Play/Pause + Save State
+document.getElementById("musicToggle").onclick = (e) => {
+    e.stopPropagation();
+
+    if (music.paused) {
+        music.play();
+        record.style.animationPlayState = 'running';
+        playIcon.classList.replace("fa-play", "fa-pause");
+        statusText.innerText = "PLAYING";
+        localStorage.setItem("musicState", "playing");
+    } else {
+        music.pause();
+        record.style.animationPlayState = 'paused';
+        playIcon.classList.replace("fa-pause", "fa-play");
+        statusText.innerText = "PAUSED";
+        localStorage.setItem("musicState", "paused");
+    }
+};
+
+
+// 2. GALLERY (NO DOWNLOAD / NO NEW TAB)
+const gallery = document.getElementById("gallery");
+
+const images = [
+    "assets/img/Pre-Wedding/001.jpg",
+    "assets/img/Pre-Wedding/002.jpg",
+    "assets/img/Pre-Wedding/003.jpg",
+    "assets/img/Pre-Wedding/004.jpg",
+    "assets/img/Pre-Wedding/005.jpg",
+    "assets/img/Pre-Wedding/006.jpg",
+    "assets/img/Pre-Wedding/007.jpg",
+    "assets/img/Pre-Wedding/008.jpg",
+    "assets/img/Pre-Wedding/009.jpg",
+    "assets/img/Pre-Wedding/010.jpg",
+    "assets/img/Pre-Wedding/011.jpg",
+    "assets/img/Pre-Wedding/012.jpg",
+    "assets/img/Pre-Wedding/013.jpg",
+    "assets/img/Pre-Wedding/014.jpg",
+    "assets/img/Pre-Wedding/015.jpg",
+    "assets/img/Pre-Wedding/016.jpg",
+    "assets/img/Pre-Wedding/017.jpg",
+    "assets/img/Pre-Wedding/018.jpg",
+    "assets/img/Pre-Wedding/019.jpg",
+    "assets/img/Pre-Wedding/020.jpg",
+    "assets/img/Pre-Wedding/021.jpg",
+    "assets/img/Pre-Wedding/022.jpg",
+    "assets/img/Pre-Wedding/023.jpg",
+    "assets/img/Pre-Wedding/024.jpg",
+    "assets/img/Pre-Wedding/025.jpg",
+    "assets/img/Pre-Wedding/026.jpg",
+    "assets/img/Pre-Wedding/027.jpg",
+    "assets/img/Pre-Wedding/028.jpg",
+    "assets/img/Pre-Wedding/029.jpg",
+    "assets/img/Pre-Wedding/030.jpg",
+    "assets/img/Pre-Wedding/031.jpg",
+];
+
+images.forEach(imgUrl => {
+    let div = document.createElement("div");
+    div.className = "photo-item";
+
+    let img = document.createElement("img");
+    img.src = imgUrl;
+    img.loading = "lazy";
+    img.draggable = false;
+
+    // ❌ Prevent open in new tab
+    img.onclick = (e) => e.preventDefault();
+
+    div.appendChild(img);
+
+    div.onclick = () => {
+        document.getElementById("lightImg").src = imgUrl;
+        document.getElementById("lightbox").style.display = "flex";
+    };
+
+    gallery.appendChild(div);
+});
+
+
+// 3. VIDEOS (NO NEW TAB OPEN)
+const vids = [
+    {
+        link: "https://youtu.be/7mOO5iCSNj4?si=EhOoXF_h0Xrp46TR",
+        thumb: "assets/img/Pre-Wedding/Thumbnail/1.jpg"
+    },
+    {
+        link: "https://youtu.be/MkNtgoPr-TE?si=6Tzsth41qUGC_ZeI",
+        thumb: "assets/img/Pre-Wedding/Thumbnail/2.jpg"
+    },
+    {
+        link: "https://youtu.be/gImV2_WNseY?si=iGn6_KKr3nQbx2yv",
+        thumb: "assets/img/Pre-Wedding/Thumbnail/3.jpg"
+    }   
+];
+
+const videoDiv = document.getElementById("videos");
+
+vids.forEach(v => {
+    let card = document.createElement("div");
+    card.className = "video-card";
+
+    // 👉 open in SAME tab
+    card.onclick = () => window.location.href = v.link;
+
+    card.innerHTML = `
+        <div class="video-thumb">
+            <img src="${v.thumb}" draggable="false">
+            <i class="fas fa-play-circle"></i>
+        </div>
+    `;
+
+    videoDiv.appendChild(card);
+});
+</script>
+
+</body>
+</html>

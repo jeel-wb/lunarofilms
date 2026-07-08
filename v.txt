@@ -1,0 +1,22 @@
+    <div class="side-video">
+    <video autoplay loop  playsinline preload="auto">
+        <source src="assets/Video/Pre-Wedding/Back.mp4" type="video/mp4">
+    </video>
+</div>  
+
+
+.side-video{
+    position: absolute;   /* 🔥 fixed → absolute */
+    left: 60px;
+    bottom: 60px;         /* 🔥 exact position like screenshot */
+    width: 300px;
+    z-index: 10;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+.side-video video{
+    width: 100%;
+    display: block;
+}
